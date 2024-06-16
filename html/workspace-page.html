@@ -26,54 +26,55 @@
 
 	<div class="content">
 		<div id="main-panel">
-			<label id="upload-bitmap-button" for="bitmap-input" class="square-element button">
-				<input type="file" id="bitmap-input" accept="image/*"/>
-				<img src="../src/icons/image.svg"/>
-			</label>			
-
-			<div id="brush-color-picker-container" class="square-element color-picker-container">
-				<label id="brush-color-picker-label" class="color-picker" for="brush-color-picker">
-					<input type="color" id="brush-color-picker">
+			<div id="io-row" class="row">
+				<label id="upload-bitmap-button" for="bitmap-input" class="square-element rect-button">open
+					<input type="file" id="bitmap-input" accept="image/*"/>
 				</label>
+				<button id="vectorize-button" class="square-element rect-button">trace</button>
+				<div size="detail-level-slider-container" class="slider-with-title">
+					<span class="slider-title">detail</span>
+					<input id="detail-level-slider" type="range" min="-10" max="-1" value="-1"/>
+					<span class="span-value" id="detail-level-slider-value"></span>
+				</div>
+				<button id="download-svg-button" class="square-element rect-button">save</button>
 			</div>
 
-			<button id="brush-tool-button" class="square-element button">
-				<img src="../src/icons/brush.svg"/>
-			</button>
-			
-			<div size="brush-size-slider-container" class="slider">
-				<input id="brush-size-slider" type="range" min="1" max="50" value="1"/>
-				<span class="span-value" id="brush-size-span-value"></span>
+			<div id="draw-row" class="row">
+				<div id="brush-color-picker-container" class="square-element color-picker-container">
+					<label id="brush-color-picker-label" class="color-picker" for="brush-color-picker">
+						<input type="color" id="brush-color-picker">
+					</label>
+				</div>
+	
+				<button id="brush-tool-button" class="square-element rect-button">draw
+					<!-- <img src="../src/icons/pencil.svg"/> -->
+				</button>
+				
+				<div size="brush-size-slider-container" class="slider">
+					<input id="brush-size-slider" type="range" min="1" max="50" value="1"/>
+					<span class="span-value" id="brush-size-span-value"></span>
+				</div>
 			</div>
 
-			<div size="detail-level-slider-container" class="slider-with-title">
-				<span class="slider-title">detail:</span>
-				<input id="detail-level-slider" type="range" min="-10" max="-1" value="-1"/>
-				<span class="span-value" id="detail-level-slider-value"></span>
-			</div>
-
-			<button id="vectorize-button" class="square-element button">trace</button>
-			<button id="download-svg-button" class="square-element button">
-				<img src="../src/icons/save.svg"/>
-			</button>
-
-			<button id="add-color-button" class="square-element button">
-				<img src="../src/icons/plus.svg"></img>
-			</button>
-
-			<div class="square-element color-picker-container">
-				<label id="preview-color-picker-label" class="color-picker" for="palette-color-picker">
-					<input type="color" id="palette-color-picker">
-				</label>
-			</div>
-
-			<button id="pallete-picker-tool-button" class="square-element button">
-				<img src="../src/icons/color-picker.svg"></img>
-			</button>
-
-			<div id="palette-panel" class="square-element">
-				<span id="palette-span">palette</span>
-				<ul id="color-scroll"></ul>
+			<div id="palette-row" class="row">
+				<button id="add-color-button" class="square-element rect-button">add
+					<!-- <img src="../src/icons/plus.svg"></img> -->
+				</button>
+	
+				<div class="square-element color-picker-container">
+					<label id="preview-color-picker-label" class="color-picker" for="palette-color-picker">
+						<input type="color" id="palette-color-picker">
+					</label>
+				</div>
+	
+				<button id="pallete-picker-tool-button" class="square-element rect-button">pick
+					<!-- <img src="../src/icons/pipette.svg"></img> -->
+				</button>
+				
+				<div id="palette-panel" class="square-element">
+					<!-- <span id="palette-span" class="square-element rect-button">palette</span> -->
+					<ul id="color-scroll"></ul>
+				</div>
 			</div>
 
 			<script>
@@ -82,7 +83,7 @@
 				const brushSizeSlider = document.getElementById("brush-size-slider");
 				const brushSizeSpanValue = document.getElementById("brush-size-span-value");
 				brushSizeSpanValue.textContent = brushSizeSlider.value;
-				brushColorPicker.value = "#ff0000";
+				brushColorPicker.value = "#000000";
 				brushColorLabel.style.backgroundColor = brushColorPicker.value;
 				brushColorPicker.addEventListener("input", () => {brushColorLabel.style.backgroundColor = brushColorPicker.value;});
 				brushSizeSlider.addEventListener("input", () => {brushSizeSpanValue.textContent = brushSizeSlider.value;});

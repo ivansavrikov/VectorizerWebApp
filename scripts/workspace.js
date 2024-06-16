@@ -36,8 +36,6 @@ export function getPixelPosition(event) {
 
 	const pixelX = Math.floor(mouseX);
 	const pixelY = Math.floor(mouseY);
-	
-	console.log(scaleX, scaleY);
 
 	return {
 		x: pixelX,
@@ -92,8 +90,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function toggle(state, event){
 		state = state == true ? false : true;
-		if(state){event.currentTarget.style.backgroundColor="whitesmoke"}
-		else{event.currentTarget.style.backgroundColor="transparent"}
+		if(state){
+			event.currentTarget.style.backgroundColor="whitesmoke"; 
+			event.currentTarget.style.color="black";
+		}
+		else{
+			event.currentTarget.style.backgroundColor="transparent"; 
+			event.currentTarget.style.color="silver";
+		}
 		return state;
 	}
 
