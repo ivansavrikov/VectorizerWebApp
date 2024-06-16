@@ -1,0 +1,27 @@
+@font-face {
+    font-family: "MontserratRegular";
+    src: url("../src/fonts/MONTSERRAT-REGULAR.TTF") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+  
+@font-face {
+    font-family: "MontserratBlackItalic";
+    src: url("../src/fonts/MONTSERRAT-BLACKITALIC.TTF") format("truetype");
+    font-style: italic;
+    font-weight: bold;
+}
+  
+@font-face {
+    font-family: "MontserratSemiBold";
+    src: url("../src/fonts/MONTSERRAT-SEMIBOLD.TTF") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+  
+@font-face {
+    font-family: "Pixelify";
+    src: url("../src/fonts/PixelifySans-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

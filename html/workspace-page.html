@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>workspace</title>
+
+	<link rel="stylesheet" href="../css/fonts.css" />
+	<link rel="stylesheet" href="../css/palette.css" />
+	<link rel="stylesheet" href="../css/general-styles.css" />
+	<link rel="stylesheet" href="../css/workspace-page-styles.css" />
+</head>
+
+<body>
+	<header>
+		<nav>
+			<ul class="navigation-menu">
+				<!-- <li><a href="../design/welcome.html">welcome</a></li> -->
+				<li><a href="../design/workspace-page.html">workspace</a></li>
+				<!-- <li><a href="../design/vector_editor.html">svg editor</a></li> -->
+			</ul>
+		</nav>
+	</header>
+	<div id="pallete-picker-tool-cursor"><img src="../src/icons/color-picker.svg"></img></div>
+	<div id="brush-size-cursor"></div>
+
+	<div class="content">
+		<div id="main-panel">
+			<label id="upload-bitmap-button" for="bitmap-input" class="square-element button">
+				<input type="file" id="bitmap-input" accept="image/*"/>
+				<img src="../src/icons/image.svg"/>
+			</label>			
+
+			<div id="brush-color-picker-container" class="square-element color-picker-container">
+				<label id="brush-color-picker-label" class="color-picker" for="brush-color-picker">
+					<input type="color" id="brush-color-picker">
+				</label>
+			</div>
+
+			<button id="brush-tool-button" class="square-element button">
+				<img src="../src/icons/brush.svg"/>
+			</button>
+			
+			<div size="brush-size-slider-container" class="slider">
+				<input id="brush-size-slider" type="range" min="1" max="50" value="1"/>
+				<span class="span-value" id="brush-size-span-value"></span>
+			</div>
+
+			<div size="detail-level-slider-container" class="slider-with-title">
+				<span class="slider-title">detail:</span>
+				<input id="detail-level-slider" type="range" min="-10" max="-1" value="-1"/>
+				<span class="span-value" id="detail-level-slider-value"></span>
+			</div>
+
+			<button id="vectorize-button" class="square-element button">trace</button>
+			<button id="download-svg-button" class="square-element button">
+				<img src="../src/icons/save.svg"/>
+			</button>
+
+			<button id="add-color-button" class="square-element button">
+				<img src="../src/icons/plus.svg"></img>
+			</button>
+
+			<div class="square-element color-picker-container">
+				<label id="preview-color-picker-label" class="color-picker" for="palette-color-picker">
+					<input type="color" id="palette-color-picker">
+				</label>
+			</div>
+
+			<button id="pallete-picker-tool-button" class="square-element button">
+				<img src="../src/icons/color-picker.svg"></img>
+			</button>
+
+			<div id="palette-panel" class="square-element">
+				<span id="palette-span">palette</span>
+				<ul id="color-scroll"></ul>
+			</div>
+
+			<script>
+				const brushColorPicker = document.getElementById("brush-color-picker");
+				const brushColorLabel = document.getElementById("brush-color-picker-label");
+				const brushSizeSlider = document.getElementById("brush-size-slider");
+				const brushSizeSpanValue = document.getElementById("brush-size-span-value");
+				brushSizeSpanValue.textContent = brushSizeSlider.value;
+				brushColorPicker.value = "#ff0000";
+				brushColorLabel.style.backgroundColor = brushColorPicker.value;
+				brushColorPicker.addEventListener("input", () => {brushColorLabel.style.backgroundColor = brushColorPicker.value;});
+				brushSizeSlider.addEventListener("input", () => {brushSizeSpanValue.textContent = brushSizeSlider.value;});
+
+				const detailLevelSlider = document.getElementById("detail-level-slider");
+				const detailLevelSliderValue = document.getElementById("detail-level-slider-value");
+				detailLevelSliderValue.textContent = (detailLevelSlider.min*-1 - detailLevelSlider.max*-1 + 1);
+				detailLevelSlider.addEventListener("input", () => {
+					detailLevelSliderValue.textContent = (detailLevelSlider.min*-1 - detailLevelSlider.value*-1 + 1);
+				});
+
+				const previewColorPicker = document.getElementById("palette-color-picker");
+				const previewColorLabel = document.getElementById("preview-color-picker-label");
+				previewColorPicker.value = "#ffffff";
+				previewColorLabel.style.backgroundColor = previewColorPicker.value;
+				previewColorPicker.addEventListener("input", () => {previewColorLabel.style.backgroundColor = previewColorPicker.value;});
+
+				const palleteScroll = document.getElementById("color-scroll");
+				palleteScroll.addEventListener('wheel', function(event) {
+					palleteScroll.scrollLeft += event.deltaY;
+					event.preventDefault();
+				});
+
+			</script>
+		</div>
+
+		<div id="view-area">
+			<div id="bitmap-container"><canvas id="bitmap-canvas" class="zoomable"></canvas></div>
+			<div id="vector-container">
+				<div id="svg-container" class="zoomable">
+				</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="module" src="../scripts/workspace.js"></script>
+	<script type="module" src="../scripts/io.js"></script>
+	<script type="module" src="../scripts/zooming-panning.js"></script>
+	<script type="module" src="../scripts/drawning.js"></script>
+</body>
+</html>
