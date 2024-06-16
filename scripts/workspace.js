@@ -17,6 +17,7 @@ export const bitmapContainer = document.getElementById("bitmap-container");
 export const vectorContainer = document.getElementById("vector-container");
 export const palettePickerToolCursor = document.getElementById("pallete-picker-tool-cursor");
 export const brushSizeCursor = document.getElementById("brush-size-cursor");
+export const loadAnimation = document.getElementById("load");
 // export const el = document.getElementById("");
 
 export let colorsForTracing = {};

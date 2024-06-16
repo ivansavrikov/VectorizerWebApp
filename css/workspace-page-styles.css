@@ -366,3 +366,23 @@ svg {
 	border: none;
 	padding-left: 2%;
 }
+
+#load-container {
+	display: none;
+	position: fixed;
+	width: 50%;
+	height: 65%;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+
+	#load {
+		display: none;
+		position: fixed;
+		pointer-events: none;
+		width: 10vh;
+		height: 10vh;
+	}
+}

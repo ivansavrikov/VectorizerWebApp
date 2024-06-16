@@ -7,6 +7,7 @@ import {
 	vectorizeButton,
 	downloadSvgButton,
 	detailLevelSlider,
+	loadAnimation,
 } from "../scripts/workspace.js"
 
 import { calcStartScale, transfromReset } from "./zooming-panning.js";
@@ -71,6 +72,7 @@ uploadBitmapButton.addEventListener("input", function (event) {
 
 //vectorization and display vector
 vectorizeButton.addEventListener("click", () => {
+	loadAnimation.style.display = 'block';
   canvas.toBlob(function (blob) {
 	let detailing = detailLevelSlider.value * -1;
 
@@ -86,6 +88,7 @@ vectorizeButton.addEventListener("click", () => {
     .then((svgData) => {
         // vectorViewer.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 		svgContainer.innerHTML = svgData;
+		loadAnimation.style.display = 'none';
       })
       .catch((error) => {
         console.error("Ошибка при получении SVG:", error);
