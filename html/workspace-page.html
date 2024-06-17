@@ -25,6 +25,9 @@
 	<div id="brush-size-cursor">
 		<!-- <img src="../src/icons/pencil.svg"> -->
 	</div>
+	<div id="crop-cursor">
+		<img src="../src/icons/cut.svg"/>
+	</div>
 
 	<div class="content">
 		<div id="main-panel">
@@ -35,7 +38,7 @@
 				<button id="vectorize-button" class="square-element rect-button">trace</button>
 				<div size="detail-level-slider-container" class="slider-with-title">
 					<span class="slider-title">detail</span>
-					<input id="detail-level-slider" type="range" min="-10" max="-1" value="-1"/>
+					<input id="detail-level-slider" type="range" min="-10" max="-1" value="-2"/>
 					<span class="span-value" id="detail-level-slider-value"></span>
 				</div>
 				<button id="download-svg-button" class="square-element rect-button">save</button>
@@ -56,6 +59,9 @@
 					<input id="brush-size-slider" type="range" min="1" max="50" value="1"/>
 					<span class="span-value" id="brush-size-span-value"></span>
 				</div>
+
+				<!-- <button id="rotate-tool-button" class="square-element rect-button">rotate</button> -->
+				<button id="crop-tool-button" class="square-element rect-button">select</button>
 			</div>
 
 			<div id="palette-row" class="row">
@@ -92,7 +98,8 @@
 
 				const detailLevelSlider = document.getElementById("detail-level-slider");
 				const detailLevelSliderValue = document.getElementById("detail-level-slider-value");
-				detailLevelSliderValue.textContent = (detailLevelSlider.min*-1 - detailLevelSlider.max*-1 + 1);
+				// detailLevelSliderValue.textContent = (detailLevelSlider.min*-1 - detailLevelSlider.max*-1) - detailLevelSlider.value*-1;
+				detailLevelSliderValue.textContent = detailLevelSlider.min*-1 - detailLevelSlider.value*-1 + 1;
 				detailLevelSlider.addEventListener("input", () => {
 					detailLevelSliderValue.textContent = (detailLevelSlider.min*-1 - detailLevelSlider.value*-1 + 1);
 				});
@@ -113,7 +120,11 @@
 		</div>
 
 		<div id="view-area">
-			<div id="bitmap-container"><canvas id="bitmap-canvas" class="zoomable"></canvas></div>
+			<div id="bitmap-container">
+				<canvas id="bitmap-canvas" class="zoomable"></canvas>
+				<svg id="bitmap-vector-layer" class="zoomable"></svg>
+			</div>
+
 			<div id="vector-container">
 				<div id="load-container">
 					<img id="load" src="../src/icons/tube-spinner.svg"></img>
@@ -127,5 +138,7 @@
 	<script type="module" src="../scripts/io.js"></script>
 	<script type="module" src="../scripts/zooming-panning.js"></script>
 	<script type="module" src="../scripts/drawning.js"></script>
+	<script type="module" src="../scripts/cropping.js"></script>
+
 </body>
 </html>

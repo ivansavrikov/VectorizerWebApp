@@ -263,11 +263,32 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 #bitmap-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: auto;
 	height: auto;
 	background-color: transparent;
 	image-rendering: pixelated;
 	display: block;
+}
+
+#bitmap-vector-layer-container {
+	width: auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	background-color: blue;
+	display:block;
+}
+
+#bitmap-vector-layer {
+	display: block;
+	width: auto;
+	height: auto;
+	background-color: transparent;
+	z-index: 1;
+	pointer-events: none;
 }
 
 #svg-container {
@@ -336,6 +357,28 @@ svg {
 	z-index: 1000;
 }
 
+#crop-cursor {
+	user-select: none;
+	width: 20px;
+	height: 20px;
+	cursor: none;
+	display: none;
+	position: fixed;
+	background-color: transparent;
+	pointer-events: none;
+	transform: translate(0, -75%);
+
+	img{
+		width: 20px;
+		height: 20px;
+	}
+}
+
+#crop-cursor.active {
+	display: block;
+	z-index: 1000;
+}
+
 .row {
 	padding-left: 2%;
 	padding-right: 2%;
@@ -347,7 +390,7 @@ svg {
 	justify-content: left;
 }
 
-#add-color-button, #pallete-picker-tool-button, #brush-tool-button {
+#add-color-button, #pallete-picker-tool-button, #brush-tool-button, #crop-tool-button {
 	/* background-color: var(--grayblue-color); */
 	background-color: transparent;
 	color: var(--text-color);

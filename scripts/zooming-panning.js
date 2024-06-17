@@ -1,11 +1,13 @@
 import {
 	canvas,
+	canvasVectorLayer,
 	svgContainer,
 	bitmapContainer,
 	vectorContainer,
 	drawingIsActive,
 	brushSizeCursor,
 	palettePickerIsActive,
+	cropToolIsActive,
 } from "../scripts/workspace.js";
 
 let isDragging = false;
@@ -32,6 +34,7 @@ export function transform() {
 
 	canvas.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 	svgContainer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+	canvasVectorLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
 export let scale = 1;
@@ -87,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function startDrag(event){
-		if(drawingIsActive || palettePickerIsActive){
+		if(drawingIsActive || palettePickerIsActive || cropToolIsActive){
 			isDragging = false; 
 			return;
 		}

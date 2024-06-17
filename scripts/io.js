@@ -1,6 +1,7 @@
 import {
 	bitmapContainer,
 	canvas,
+	canvasVectorLayer,
 	svgContainer,
 	colorsForTracing,
 	uploadBitmapButton,
@@ -56,6 +57,8 @@ uploadBitmapButton.addEventListener("input", function (event) {
         canvas.width = inputImage.width;
         canvas.height = inputImage.height;
         ctx.drawImage(inputImage, 0, 0);
+		canvasVectorLayer.setAttribute('width', canvas.width);
+		canvasVectorLayer.setAttribute('height', canvas.height);
         calcStartScale(bitmapContainer, canvas);
       };
 
@@ -67,33 +70,36 @@ uploadBitmapButton.addEventListener("input", function (event) {
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
+  event.target.value = "";
 });
 
 
 //vectorization and display vector
 vectorizeButton.addEventListener("click", () => {
-	loadAnimation.style.display = 'block';
-  canvas.toBlob(function (blob) {
-	let detailing = detailLevelSlider.value * -1;
+	canvas.toBlob(function (blob) {
+		let detailing = detailLevelSlider.value * -1;
 
-	let colors = Object.keys(colorsForTracing);
-	let jsonColors = JSON.stringify(colors);
+		let colors = Object.keys(colorsForTracing);
+		let jsonColors = JSON.stringify(colors);
 
-	if(colors.length == 0){
-		alert("Палитра не может быть пустой, добавьте цветов");
-		return;
-	}
+		if(colors.length <= 1){
+			alert("Палитра должна содержать мимимум 2 разных цвета, используйте pick или add");
+			return;
+		}
 
-    traceOnServer(blob, jsonColors, detailing)
-    .then((svgData) => {
-        // vectorViewer.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
-		svgContainer.innerHTML = svgData;
-		loadAnimation.style.display = 'none';
-      })
-      .catch((error) => {
-        console.error("Ошибка при получении SVG:", error);
-      });;
-  });
+		svgContainer.innerHTML = "";
+		loadAnimation.style.display = 'block';
+
+		traceOnServer(blob, jsonColors, detailing)
+		.then((svgData) => {
+			// vectorViewer.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
+			svgContainer.innerHTML = svgData;
+			loadAnimation.style.display = 'none';
+		})
+		.catch((error) => {
+			console.error("Ошибка при получении SVG:", error);
+		});;
+	});
 });
 
 
@@ -102,7 +108,6 @@ downloadSvgButton.addEventListener("click", () => saveSVG());
 function saveSVG(file) {
   const link = document.createElement("a");
 //   const svg = vectorViewer.src;
-
 //   const svgContent = svgContainer.innerHTML;
   let svgContent = sessionStorage.getItem("svgOutput");
   const blob = new Blob([svgContent], { type: 'image/svg+xml' });

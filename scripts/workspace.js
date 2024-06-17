@@ -12,19 +12,25 @@ export const addPaletteColorButton = document.getElementById("add-color-button")
 export const detailLevelSlider = document.getElementById("detail-level-slider");
 export const paletteScroll = document.getElementById('color-scroll');
 export const canvas = document.getElementById("bitmap-canvas");
+export const canvasVectorLayer = document.getElementById("bitmap-vector-layer");
 export const svgContainer = document.getElementById("svg-container");
 export const bitmapContainer = document.getElementById("bitmap-container");
 export const vectorContainer = document.getElementById("vector-container");
 export const palettePickerToolCursor = document.getElementById("pallete-picker-tool-cursor");
 export const brushSizeCursor = document.getElementById("brush-size-cursor");
 export const loadAnimation = document.getElementById("load");
+export const rotateToolButton = document.getElementById("rotate-tool-button");
+export const cropToolButton = document.getElementById("crop-tool-button");
+export const cropCursor = document.getElementById("crop-cursor");
 // export const el = document.getElementById("");
 
 export let colorsForTracing = {};
 
 export let drawingIsActive = false;
 export let palettePickerIsActive = false;
-export const ctx = canvas.getContext('2d', { willReadFrequently: true });
+export let isRotateToolActive = false;
+export let cropToolIsActive = false;
+export let ctx = canvas.getContext('2d', { willReadFrequently: true });
 
 export function getPixelPosition(event) {
 	const element = event.currentTarget;
@@ -60,58 +66,59 @@ function rgbToHex(r, g, b) {
 	return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	function addColorItem(color){
+function addColorItem(color){
+	if (color in colorsForTracing) {
+		colorsForTracing[color] += 1;
+	} else {
+		colorsForTracing[color] = 1;
+	}
+	const listItem = document.createElement('li');
+	const palleteItem = document.createElement('div');
+	palleteItem.className = 'palette-color-item';
+	palleteItem.style.backgroundColor = color
+	palleteItem.addEventListener('click', () => {
+		paletteScroll.removeChild(listItem);
 		if (color in colorsForTracing) {
-			colorsForTracing[color] += 1;
-		} else {
-			colorsForTracing[color] = 1;
-		}
-        const listItem = document.createElement('li');
-        const palleteItem = document.createElement('div');
-        palleteItem.className = 'palette-color-item';
-		palleteItem.style.backgroundColor = color
-        palleteItem.addEventListener('click', () => {
-            paletteScroll.removeChild(listItem);
-			if (color in colorsForTracing) {
-				colorsForTracing[color] -= 1;
-				if(colorsForTracing[color] == 0){
-					delete colorsForTracing[color];
-				}
+			colorsForTracing[color] -= 1;
+			if(colorsForTracing[color] == 0){
+				delete colorsForTracing[color];
 			}
-        });
-        listItem.appendChild(palleteItem);
-        paletteScroll.appendChild(listItem);
-		paletteScroll.scrollLeft += 30;
-    }
+		}
+	});
+	listItem.appendChild(palleteItem);
+	paletteScroll.appendChild(listItem);
+	paletteScroll.scrollLeft += 30;
+}
 
-	addColorItem('#ffffff');
-	addColorItem('#000000');
+addColorItem('#ffffff');
+addColorItem('#000000');
+
+function toggle(state, event){
+	state = state == true ? false : true;
+	if(state){
+		event.currentTarget.style.backgroundColor="whitesmoke"; 
+		event.currentTarget.style.color="black";
+	}
+	else{
+		event.currentTarget.style.backgroundColor="transparent"; 
+		event.currentTarget.style.color="silver";
+	}
+	return state;
+}
+
+function changeCursorVisibility(cursor, isActive){
+	if(isActive){
+		canvas.style.cursor = 'none';
+		cursor.classList.add("active");
+	}
+	else{
+		cursor.classList.remove("active");
+		canvas.style.cursor = "inherit";
+	}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
 	addPaletteColorButton.addEventListener('click', () => addColorItem(paletteColorPicker.value));
-
-	function toggle(state, event){
-		state = state == true ? false : true;
-		if(state){
-			event.currentTarget.style.backgroundColor="whitesmoke"; 
-			event.currentTarget.style.color="black";
-		}
-		else{
-			event.currentTarget.style.backgroundColor="transparent"; 
-			event.currentTarget.style.color="silver";
-		}
-		return state;
-	}
-
-	function changeCursorVisibility(cursor, isActive){
-		if(isActive){
-			canvas.style.cursor = 'none';
-			cursor.classList.add("active");
-		}
-		else{
-			cursor.classList.remove("active");
-			canvas.style.cursor = "inherit";
-		}
-	}
 
 	brushSizeSlider.addEventListener('input', () => {
 		transform();
@@ -119,6 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	brushToolButton.addEventListener('click', (event) => {
 		if(palettePickerIsActive){palettePickerToolButton.click();}
+		if(cropToolIsActive){cropToolButton.click();}
+
 		drawingIsActive = toggle(drawingIsActive, event);
 		changeCursorVisibility(brushSizeCursor, drawingIsActive);
 
@@ -129,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	palettePickerToolButton.addEventListener('click', (event) => {
 		if(drawingIsActive){brushToolButton.click();}
+		if(cropToolIsActive){cropToolButton.click();}
 		palettePickerIsActive = toggle(palettePickerIsActive, event);
 		changeCursorVisibility(palettePickerToolCursor, palettePickerIsActive);
 
@@ -166,11 +176,26 @@ document.addEventListener("DOMContentLoaded", () => {
 		
 		brushSizeCursor.style.left = event.clientX + "px";
 		brushSizeCursor.style.top = event.clientY + "px";
+
+		cropCursor.style.left = event.clientX + "px";
+		cropCursor.style.top = event.clientY + "px";
 	});
 
 	canvas.addEventListener('click', () => {
 		if(palettePickerIsActive){
 			addColorItem(paletteColorPicker.value);
 		}
+	});
+
+	cropToolButton.addEventListener('click', (event) => {
+		if(drawingIsActive){brushToolButton.click();}
+		if(palettePickerIsActive){palettePickerToolButton.click();}
+
+		cropToolIsActive = toggle(cropToolIsActive, event);
+		changeCursorVisibility(cropCursor, cropToolIsActive);
+
+		const rect = canvas.getBoundingClientRect();
+		cropCursor.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
+		cropCursor.style.top = rect.top + window.scrollY + rect.height / 2 + "px";
 	});
 });
