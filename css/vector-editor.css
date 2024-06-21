@@ -1,0 +1,127 @@
+#content {
+	background-color: black;
+}
+
+#main-area {
+	background-color: var(--workspace-color);
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+
+	#text-editor {
+		width: 50%;
+		background-color: red;
+	}
+
+	#vector-editor-view-area {
+		width: 45%;
+		position: relative;
+		overflow: hidden;
+	}
+
+	#main-panel {
+		width: 5%;
+		height: 100%;
+		background-color: black;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+#textarea {
+	padding: 5%;
+	appearance: none;
+	text-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+	display: block;
+    resize: none;
+    box-shadow: none;
+	border: 0;
+    outline: none;
+	border-radius: 0;
+	background-color: black;
+	color: silver;
+	tab-size: 2;
+	font-size: 0.9em;
+	text-decoration: none;
+	caret-color: whitesmoke;
+}
+
+#image-svg {
+	width: auto;
+	height: auto;
+	display: block;
+	pointer-events: none;
+	outline: none;
+	background-color: transparent;
+	user-select: none;
+}
+
+#vector-container{
+	width: auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	display:block;
+	overflow: hidden;
+	position: absolute;
+	transform-origin: 0 0;
+	object-fit: cover;
+	object-position: center center;
+	pointer-events: none;
+	filter: none;
+}
+
+.container-for-adaptive {
+	width: 100%;
+	aspect-ratio: 1/1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 100%;
+	background-color: transparent;
+}
+
+.button {
+	background-color: transparent;
+	color: var(--text-color);
+	border: 1px solid var(--stroke-button-color);
+	font-size: 0.8em;
+	transition: font-size 0.1s ease-out;
+
+	img {
+		width: 80%;
+		height: 80%;
+		transition: width 0.15s ease, height 0.15s ease;
+	}
+}
+
+.button:hover {
+	font-size: 1.1em;
+
+	img {
+		width: 90%;
+		height: 90%;
+	}
+}
+
+.button:active {
+	font-size: 0.8em;
+
+	img {
+		width: 70%;
+		height: 70%;
+	}
+}
+
+.rect-button {
+	width: 80%;
+	height: 80%;
+	border-radius: 0.1vw;
+	font-size: 1em;
+	background-color: var(--grayblue-color);
+	color: silver;
+	transition: font-size 0.1s ease-out;
+}

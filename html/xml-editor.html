@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>editor</title>
+	<link rel="stylesheet" href="../css/fonts.css" />
+	<link rel="stylesheet" href="../css/palette.css" />
+	<link rel="stylesheet" href="../css/general-styles.css" />
+	<link rel="stylesheet" href="../css/vector-editor.css" />
+</head>
+<body>
+	<header>
+		<nav>
+			<ul class="navigation-menu">
+				<li><a href="../index.html">welcome</a></li>
+				<li><a href="../html/workspace-page.html">workspace</a></li>
+				<li><a href="../html/xml-editor.html">editor</a></li>
+			</ul>
+		</nav>
+	</header>
+	<content id="content" class="content">
+		<div id="main-area">
+			<div id="text-editor">
+				<textarea id="textarea" spellcheck="false"></textarea>
+			</div>
+	
+			<div id="vector-editor-view-area">
+				<div id="vector-container">
+					<img id="image-svg" alt=""></img>
+				</div>
+			</div>
+
+			<div id="main-panel">
+				<div class="container-for-adaptive">
+					<button id="put-to-center-button" class="button rect-button">center</button>
+				</div>
+				<div class="container-for-adaptive">
+					<button id="" class="button rect-button">other</button>
+				</div>
+			</div>
+		</div>
+	</content>
+	<script type="module" src="../scripts/editor.js"></script>
+</body>
+</html>

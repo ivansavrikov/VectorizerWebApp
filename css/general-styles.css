@@ -117,3 +117,28 @@ input[type="color"]::-webkit-color-swatch {
   .command-button:active {
 
   } */
+
+::selection {
+	background-color: dimgray;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+  
+::-webkit-scrollbar-thumb {
+	background-color: dimgray;
+}
+  
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+  
+::-webkit-scrollbar-corner {
+	display: none;
+	background-color: transparent;
+	width: 0;
+	height: 0;
+	background: transparent;
+}

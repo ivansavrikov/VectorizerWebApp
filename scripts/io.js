@@ -25,7 +25,7 @@ export async function traceOnServer(file, jsonColors, detailing) {
 			body: formData,
 		});
 		const svgData = await response.text();
-		sessionStorage.setItem("svgOutput", svgData);
+		sessionStorage.setItem("svg", svgData);
 		return svgData;
 	} catch (error) {
 		console.error("Ошибка при отправке изображения:", error);
@@ -109,7 +109,7 @@ function saveSVG(file) {
   const link = document.createElement("a");
 //   const svg = vectorViewer.src;
 //   const svgContent = svgContainer.innerHTML;
-  let svgContent = sessionStorage.getItem("svgOutput");
+  let svgContent = sessionStorage.getItem("svg");
   const blob = new Blob([svgContent], { type: 'image/svg+xml' });
   link.href = URL.createObjectURL(blob);
   link.download = "result.svg";
