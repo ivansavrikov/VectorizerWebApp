@@ -1,4 +1,7 @@
-import {scale, transform} from "../scripts/zooming-panning.js";
+import {scale, calcStartScale} from "../scripts/zooming-panning.js";
+// import { calcStartScale } from "./editor.js";
+import { drawImage } from "./drawning.js";
+import { transform } from "../scripts/zooming-panning.js";
 
 export const uploadBitmapButton = document.getElementById("upload-bitmap-button");
 export const vectorizeButton = document.getElementById("vectorize-button");
@@ -23,6 +26,7 @@ export const rotateToolButton = document.getElementById("rotate-tool-button");
 export const cropToolButton = document.getElementById("crop-tool-button");
 export const cropCursor = document.getElementById("crop-cursor");
 // export const el = document.getElementById("");
+const putToCenterButton = document.getElementById("put-to-center-button");
 
 export let colorsForTracing = {};
 
@@ -31,6 +35,25 @@ export let palettePickerIsActive = false;
 export let isRotateToolActive = false;
 export let cropToolIsActive = false;
 export let ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+export function paletteReload(){
+	paletteScroll.innerHTML = '';
+	colorsForTracing = {};
+	addColorItem('#ffffff');
+	addColorItem('#000000');
+}
+
+function updateToolCursorColor(event){
+	let color = 'white'
+	const position = getPixelPosition(event);
+	const imageData = ctx.getImageData(position.x, position.y, 1, 1).data;
+
+	const brightness = (imageData[0] + imageData[1] + imageData[2])/3;
+	if(brightness > 128){
+		color = 'black'
+	}
+	return color;
+}
 
 export function getPixelPosition(event) {
 	const element = event.currentTarget;
@@ -90,9 +113,6 @@ function addColorItem(color){
 	paletteScroll.scrollLeft += 30;
 }
 
-addColorItem('#ffffff');
-addColorItem('#000000');
-
 function toggle(state, event){
 	state = state == true ? false : true;
 	if(state){
@@ -147,21 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		palettePickerToolCursor.style.top = rect.top + window.scrollY + rect.height / 2 + "px";
 	});
 
-	// canvas.addEventListener('mouseover', () => {
-	// 	// changeCursorVisibility(palettePickerToolCursor, palettePickerIsActive);
-	// 	// changeCursorVisibility(brushSizeCursor, drawingIsActive);
-	// });
-
-	canvas.addEventListener('mouseleave', () => {
-		// brushToolButton.click();
-		if(palettePickerIsActive){
-			palettePickerToolButton.click();
-		}
-		if(drawingIsActive){
-			brushToolButton.click();
-		}
-	});
-
 	canvas.addEventListener('mousemove', (event) => {
 		if(palettePickerIsActive){
 			const position = getPixelPosition(event);
@@ -176,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		
 		brushSizeCursor.style.left = event.clientX + "px";
 		brushSizeCursor.style.top = event.clientY + "px";
+		brushSizeCursor.style.border = `solid 1px ${updateToolCursorColor(event)}`;
 
 		cropCursor.style.left = event.clientX + "px";
 		cropCursor.style.top = event.clientY + "px";
@@ -197,5 +203,50 @@ document.addEventListener("DOMContentLoaded", () => {
 		const rect = canvas.getBoundingClientRect();
 		cropCursor.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
 		cropCursor.style.top = rect.top + window.scrollY + rect.height / 2 + "px";
+	});
+});
+
+window.addEventListener('load', () => {
+
+	window.addEventListener('paste', (event) => {
+        const items = event.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+					const image = new Image();
+					image.src = event.target.result;
+					image.onload = () => {
+						drawImage(image);
+						paletteReload();
+						sessionStorage.setItem('svg', "")
+
+						svgContainer.innerHTML = "";
+					};
+                };
+
+                reader.readAsDataURL(blob);
+                break;
+            }
+        }
+    });
+
+	const image = new Image();
+	image.src = sessionStorage.getItem("bitmap");
+	image.onload = () => {
+		if(image){
+			const svgData = sessionStorage.getItem("svg");
+			if (svgData) {
+				svgContainer.innerHTML = svgData;
+			}
+
+			drawImage(image);
+		}
+	};
+
+	putToCenterButton.addEventListener('click', () => {
+		calcStartScale(bitmapContainer, canvas);
 	});
 });

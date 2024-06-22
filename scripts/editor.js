@@ -22,7 +22,7 @@ window.addEventListener('load', function() {
         imageSvg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 		
 
-		imageSvg.addEventListener('load', function() {
+		imageSvg.addEventListener('load', () => function() {
 			calcStartScale(vectorViewArea, vectorContainer);
 		});
     }
@@ -170,6 +170,7 @@ textarea.addEventListener('keydown', function(e) {
 textarea.addEventListener('input', () => {
 	let xml = textarea.value;
 	imageSvg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+	sessionStorage.setItem("svg", xml);
 });
 
 vectorViewArea.addEventListener("wheel", handleZoom);

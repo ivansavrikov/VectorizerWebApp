@@ -6,18 +6,24 @@ import {
 	cropToolButton,
 	svgContainer,
 } from "../scripts/workspace.js"
+import { drawImage } from "./drawning.js";
 import { calcStartScale } from "./zooming-panning.js";
 
 let lassoPoints = [];
 let polygonPoints = [];
-const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-polygon.setAttribute('stroke', 'blue');
-polygon.setAttribute('stroke-width', '2');
-polygon.setAttribute('stroke-opacity', '0.5');
-polygon.setAttribute('fill', 'blue');
-polygon.setAttribute('fill-opacity', '0')
-polygon.setAttribute('pointer-events', 'none');
-canvasVectorLayer.appendChild(polygon);
+export const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+polyline.setAttribute('stroke', 'blue');
+polyline.setAttribute('stroke-width', '0.5');
+polyline.setAttribute('stroke-opacity', '1');
+polyline.setAttribute('fill', 'blue');
+polyline.setAttribute('fill-opacity', '0')
+polyline.setAttribute('pointer-events', 'none');
+canvasVectorLayer.appendChild(polyline);
+
+const previewLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+previewLine.setAttribute('stroke', 'blue');
+previewLine.setAttribute('stroke-width', '0.5');
+canvasVectorLayer.appendChild(previewLine);
 
 canvas.addEventListener('mousedown', (event) => {
 	if (cropToolIsActive){
@@ -30,6 +36,19 @@ canvas.addEventListener('mousedown', (event) => {
 	}
 });
 
+canvas.addEventListener('mousemove', (event) => {
+	if (cropToolIsActive && lassoPoints.length > 0){
+		const lastPoint = lassoPoints[lassoPoints.length - 1];
+		const x = event.offsetX;
+		const y = event.offsetY;
+
+		previewLine.setAttribute('x1', lastPoint.x);
+		previewLine.setAttribute('y1', lastPoint.y);
+		previewLine.setAttribute('x2', x);
+		previewLine.setAttribute('y2', y);
+	}
+});
+
 cropToolButton.addEventListener('click', () => {
 	if(cropToolIsActive){
 		croppingReset();
@@ -39,7 +58,11 @@ cropToolButton.addEventListener('click', () => {
 export function croppingReset() {
 	polygonPoints = [];
 	lassoPoints = [];
-	polygon.setAttribute('points', "");
+	polyline.setAttribute('points', "");
+	previewLine.setAttribute('x1', 0);
+	previewLine.setAttribute('y1', 0);
+	previewLine.setAttribute('x2', 0);
+	previewLine.setAttribute('y2', 0);
 }
 
 function drawLine(start, end) {
@@ -47,7 +70,7 @@ function drawLine(start, end) {
 		polygonPoints.push(`${start.x},${start.y}`);
 	}
 	polygonPoints.push(`${end.x},${end.y}`);
-	polygon.setAttribute('points', polygonPoints.join(' '));
+	polyline.setAttribute('points', polygonPoints.join(' '));
 
 	if (Math.abs(lassoPoints[0].x - end.x) <= 2 && Math.abs(lassoPoints[0].y - end.y) <= 2){
 		if (lassoPoints.length > 2) {
@@ -55,13 +78,12 @@ function drawLine(start, end) {
 			cropToolButton.click();
 			croppingReset();
 		}
-		polygon.setAttribute('fill-opacity', '0.5');
+		polyline.setAttribute('fill-opacity', '0.5');
 	} else {
-		polygon.setAttribute('fill-opacity', '0');
+		polyline.setAttribute('fill-opacity', '0');
 	}
 }
 
-//FIXME: остаются следы от предыдщуего выделения
 export function crop() {
     let minX = lassoPoints[0].x;
     let minY = lassoPoints[0].y;
@@ -119,8 +141,14 @@ export function crop() {
 	canvasVectorLayer.setAttribute('width', canvas.width);
 	canvasVectorLayer.setAttribute('height', canvas.height);
     ctx.putImageData(selectionRectangle.imageData, 0, 0);
-	calcStartScale(canvas.parentElement, canvas);
 	
-	//TODO: решить с местом хранением svg
+	const dataURL = canvas.toDataURL('image/png');
+	const image = new Image();
+	image.src = dataURL;
+	image.onload = () => {
+		sessionStorage.setItem("svg", "");
+		drawImage(image);
+	};
+
 	svgContainer.innerHTML = "";
 }

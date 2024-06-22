@@ -11,7 +11,11 @@ import {
 	loadAnimation,
 } from "../scripts/workspace.js"
 
+import { drawImage } from "./drawning.js";
+
 import { calcStartScale, transfromReset } from "./zooming-panning.js";
+
+import { paletteReload } from "../scripts/workspace.js";
 
 export async function traceOnServer(file, jsonColors, detailing) {
 	const formData = new FormData();
@@ -54,12 +58,9 @@ uploadBitmapButton.addEventListener("input", function (event) {
     let img = new Image();
     img.onload = function () {
       inputImage.onload = function () {
-        canvas.width = inputImage.width;
-        canvas.height = inputImage.height;
-        ctx.drawImage(inputImage, 0, 0);
-		canvasVectorLayer.setAttribute('width', canvas.width);
-		canvasVectorLayer.setAttribute('height', canvas.height);
-        calcStartScale(bitmapContainer, canvas);
+		sessionStorage.setItem("bitmap", inputImage.src);
+		drawImage(inputImage);
+		paletteReload();
       };
 
       inputImage.src = img.src;

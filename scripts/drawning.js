@@ -1,5 +1,9 @@
 import { 
 	canvas,
+	ctx,
+	canvasVectorLayer,
+	bitmapContainer,
+	svgContainer,
 	brushColorPicker,
 	brushToolButton,
 	brushSizeSlider,
@@ -7,6 +11,20 @@ import {
 	hexToRGBA,
 	drawingIsActive,
 } from "../scripts/workspace.js";
+
+import { calcStartScale } from "./zooming-panning.js";
+
+export function drawImage(image){
+	sessionStorage.setItem('bitmap', image.src);
+
+	canvas.width = image.width;
+	canvas.height = image.height;
+	ctx.drawImage(image, 0, 0);
+	canvasVectorLayer.setAttribute('width', canvas.width);
+	canvasVectorLayer.setAttribute('height', canvas.height);
+
+	calcStartScale(bitmapContainer, canvas);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 	const ctx = canvas.getContext('2d', { willReadFrequently: true });
