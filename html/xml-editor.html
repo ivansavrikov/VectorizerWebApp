@@ -32,14 +32,31 @@
 			</div>
 
 			<div id="main-panel">
+
 				<div class="container-for-adaptive">
-					<button id="put-to-center-button" class="button rect-button">center</button>
+					<button id="put-to-center-button" class="button rect-button">
+						<img src="../src/icons/to-frame.svg"/>
+					</button>
 				</div>
+
 				<div class="container-for-adaptive">
-					<button id="" class="button rect-button">other</button>
+					<div class="color-picker-container">
+						<label id="color-picker-label" class="color-picker" for="color-picker">
+							<input type="color" id="color-picker">
+						</label>
+					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+				const colorPicker = document.getElementById("color-picker");
+				const colorLabel = document.getElementById("color-picker-label");
+				colorPicker.value = "#ffffff";
+				colorLabel.style.backgroundColor = colorPicker.value;
+				colorPicker.addEventListener("input", () => {
+					colorLabel.style.backgroundColor = colorPicker.value;
+					navigator.clipboard.writeText(colorPicker.value)});
+		</script>
 	</content>
 	<script type="module" src="../scripts/editor.js"></script>
 </body>

@@ -117,15 +117,47 @@
 }
 
 .rect-button {
-	width: 80%;
-	height: 80%;
+	width: 60%;
+	height: 60%;
 	border-radius: 0.1vw;
 	font-size: 1em;
-	background-color: var(--grayblue-color);
 	color: silver;
+	background-color: transparent;
 	transition: font-size 0.1s ease-out;
 }
 
 path:hover {
     fill: lightblue; /* Цвет фона при наведении */
+}
+
+.color-picker-container {
+	background-color: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	label {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+input[type="color"] {
+    position: relative;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.color-picker {
+	width: 3vw;
+	height: 3vw;
+	border: solid 0.4vw whitesmoke;
+	border-radius: 50%;
 }

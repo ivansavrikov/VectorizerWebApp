@@ -123,24 +123,3 @@ function saveSVG(file) {
   link.download = "result.svg";
   link.click();
 }
-
-// const colorPicker = document.getElementById('colorPicker');
-// colorPicker?.addEventListener('input', function(event) {
-//   const selectedColor = event.target.value;
-//   svgContainer.style.backgroundColor = selectedColor;
-// });
-
-// svgInput?.addEventListener('change', function(event) {
-//     const file = event.target.files[0];
-//     if (file && file.type === 'image/svg+xml') {
-//         const reader = new FileReader();
-//         reader.onload = function(e) {
-//             const svgContent = e.target.result;
-//             svgContainer.innerHTML = svgContent;
-// 			sessionStorage.setItem("svgOutput", svgContent)
-//         };
-//         reader.readAsText(file);
-//     } else {
-//         alert('Please upload a valid SVG file.');
-//     }
-// });

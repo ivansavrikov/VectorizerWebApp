@@ -22,9 +22,7 @@
 		</nav>
 	</header>
 	<div id="pallete-picker-tool-cursor"><img src="../src/icons/color-picker.svg"></img></div>
-	<div id="brush-size-cursor">
-		<!-- <img src="../src/icons/pencil.svg"> -->
-	</div>
+	<div id="brush-size-cursor"></div>
 	<div id="crop-cursor">
 		<img src="../src/icons/cut.svg"/>
 	</div>
@@ -35,58 +33,84 @@
 				<label id="upload-bitmap-button" for="bitmap-input" class="square-element rect-button">open
 					<input type="file" id="bitmap-input" accept="image/*"/>
 				</label>
-				<div size="detail-level-slider-container" class="slider-with-title">
+				<div class="square-element" style="width: 10vw; margin-right: 0.5vw;" style="background-color: blue;">
+					<!-- <button id="linear-mode-button" class="toggle-button">linear</button>
+					<button id="curve-mode-button" class="toggle-button">curve</button> -->
+					<button id="linear-mode-button" class="toggle-button">
+						<img src="../src/icons/linear-mode.svg"/>
+					</button>
+					<button id="curve-mode-button" class="toggle-button">
+						<img src="../src/icons/curve-mode.svg"/>
+					</button>
+				</div>
+				<div id="detail-level-slider-container" class="slider-with-title">
 					<span class="slider-title">detail</span>
 					<input id="detail-level-slider" type="range" min="-10" max="-1" value="-2"/>
 					<span class="span-value" id="detail-level-slider-value"></span>
 				</div>
-				<div class="square-element" style="width: 10vw" style="background-color: blue;">
-					<button id="linear-mode-button" class="toggle-button">linear</button>
-					<button id="curve-mode-button" class="toggle-button">curve</button>
-				</div>
-				<button id="vectorize-button" class="square-element rect-button">trace</button>
+				<button id="vectorize-button" class="square-element rect-button" style="margin-right: 0.5vw;">trace</button>
 				<button id="download-svg-button" class="square-element rect-button">save</button>
 			</div>
 
 			<div id="draw-row" class="row">
+
+				<div class="tool">
+					<button id="crop-tool-button">
+						<img src="../src/icons/cutter.svg"/>
+					</button>
+				</div>
+
+				<div class="tool">
+					<button id="put-to-center-button">
+						<img src="../src/icons/to-frame.svg"/>
+					</button>
+				</div>
+
+				<div class="tool">
+					<button id="delete-shape-tool-button">
+						<img src="../src/icons/remover.svg"/>
+					</button>
+				</div>
+
 				<div id="brush-color-picker-container" class="square-element color-picker-container">
 					<label id="brush-color-picker-label" class="color-picker" for="brush-color-picker">
 						<input type="color" id="brush-color-picker">
 					</label>
 				</div>
-	
-				<button id="brush-tool-button" class="square-element rect-button">draw
-					<!-- <img src="../src/icons/pencil.svg"/> -->
-				</button>
+
+				<div class="tool">
+					<button id="brush-tool-button" class="square-element rect-button">
+						<img src="../src/icons/brush.svg"/>
+					</button>
+				</div>
 				
 				<div size="brush-size-slider-container" class="slider">
 					<input id="brush-size-slider" type="range" min="1" max="50" value="1"/>
 					<span class="span-value" id="brush-size-span-value"></span>
 				</div>
-
-				<!-- <button id="rotate-tool-button" class="square-element rect-button">rotate</button> -->
-				<button id="crop-tool-button" class="square-element rect-button">select</button>
-				<button id="put-to-center-button" class="square-element rect-button">center</button>
-				<button id="delete-shape-tool-button" class="square-element rect-button">remover</button>
 			</div>
 
 			<div id="palette-row" class="row">
-				<button id="add-color-button" class="square-element rect-button">add
-					<!-- <img src="../src/icons/plus.svg"></img> -->
-				</button>
+
+				<div class="tool">
+					<button id="add-color-button">
+						<img src="../src/icons/plus.svg"></img>
+					</button>
+				</div>
 	
 				<div class="square-element color-picker-container">
 					<label id="preview-color-picker-label" class="color-picker" for="palette-color-picker">
 						<input type="color" id="palette-color-picker">
 					</label>
 				</div>
-	
-				<button id="pallete-picker-tool-button" class="square-element rect-button">pick
-					<!-- <img src="../src/icons/pipette.svg"></img> -->
-				</button>
+
+				<div class="tool">
+					<button id="pallete-picker-tool-button">
+						<img src="../src/icons/pipette.svg"></img>
+					</button>
+				</div>
 				
 				<div id="palette-panel" class="square-element">
-					<!-- <span id="palette-span" class="square-element rect-button">palette</span> -->
 					<ul id="color-scroll"></ul>
 				</div>
 			</div>

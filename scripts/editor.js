@@ -22,7 +22,7 @@ window.addEventListener('load', function() {
         imageSvg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 		
 
-		imageSvg.addEventListener('load', () => function() {
+		imageSvg.addEventListener('load', () => {
 			calcStartScale(vectorViewArea, vectorContainer);
 		});
     }
@@ -52,8 +52,6 @@ export function calcStartScale(container, element){
 	offsetX = (container.clientWidth - element.clientWidth * scale) / 2;
     offsetY = (container.clientHeight - element.clientHeight * scale) / 2;
 
-	console.log(scale, offsetX, offsetY);
-	console.log(element);
 	transform();
 }
 

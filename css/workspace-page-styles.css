@@ -41,7 +41,6 @@ input[type="file"] {
 }
 
 input[type="color"] {
-	/* display: none; */
     position: relative;
     top: 0;
     left: 0;
@@ -96,6 +95,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 	}
 
 	span.span-value {
+		font-size: 1.1vw;
 		width: 2vw;
 		display: flex;
 		align-items: center;
@@ -106,12 +106,15 @@ input[type="range"]::-webkit-slider-thumb:active {
 .slider-with-title {
 	width: 14vw;
 	height: 2vw;
+	line-height: 2vw;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: left;
 
 	span.slider-title {
+		font-size: 1.1vw;
+		line-height: 1.1vw;
 		display: flex;
 		align-items: center;
 		justify-content: left;
@@ -124,6 +127,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 	span.span-value {
 		width: 2vw;
+		font-size: 1.1vw;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -133,7 +137,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 .square-element {
 	border: none;
 	outline: none;
-	margin-right: 0.5vw;
+	/* margin-right: 0.5vw; */
 	width: 2vw;
 	height: 2vw;
 	aspect-ratio: 1/1;
@@ -147,7 +151,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 .color-picker {
 	width: 2vw;
 	height: 2vw;
-	border: solid 0.3vw silver ;
+	border: solid 0.4vw whitesmoke;
 	border-radius: 50%;
 }
 
@@ -189,7 +193,7 @@ input[type="range"]::-webkit-slider-thumb:active {
 	height: 1.5vw;
 	line-height: 2vw;
 	border-radius: 2vw;
-	font-size: 1em;
+	font-size: 1.1vw;
 	/* border: solid 1px var(--border-button-color); */
 	/* background-color: var(--grayblue-color); */
 	background-color: black;
@@ -198,15 +202,16 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 .rect-button:hover {
-	font-size: 1.1em;
+	font-size: 1.2vw;
 }
 
 .rect-button:active {
-	font-size: 0.9em;
+	font-size: 1vw;
 }
 
 .color-picker-container {
 	position: relative;
+	margin-right: 1vw;
 
 	label {
 		position: relative;
@@ -318,8 +323,8 @@ svg {
 
 #pallete-picker-tool-cursor{
 	user-select: none;
-	width: 20px;
-	height: 20px;
+	width: 2vw;
+	height: 2vw;
 	cursor: none;
 	display: none;
 	position: fixed;
@@ -328,8 +333,8 @@ svg {
 	transform: translate(0, -75%);
 
 	img{
-		width: 20px;
-		height: 20px;
+		width: 100%;
+		height: 100%;
 	}
 }
 
@@ -359,8 +364,8 @@ svg {
 
 #crop-cursor {
 	user-select: none;
-	width: 20px;
-	height: 20px;
+	width: 2vw;
+	height: 2vw;
 	cursor: none;
 	display: none;
 	position: fixed;
@@ -369,8 +374,8 @@ svg {
 	transform: translate(0, -75%);
 
 	img{
-		width: 20px;
-		height: 20px;
+		width: 100%;
+		height: 100%;
 	}
 }
 
@@ -390,11 +395,10 @@ svg {
 	justify-content: left;
 }
 
-#add-color-button, #pallete-picker-tool-button, #brush-tool-button, #crop-tool-button {
-	/* background-color: var(--grayblue-color); */
+/* #pallete-picker-tool-button, #brush-tool-button, #crop-tool-button {
 	background-color: transparent;
 	color: var(--text-color);
-}
+} */
 
 #io-row {
 	background-color: transparent;
@@ -446,31 +450,83 @@ path {
 	justify-content: center;
 	width: 6vw;
 	height: 1.5vw;
-	font-size: 1em;
-	background-color: black;
+	font-size: 1.1vw;
+	background-color: transparent;
 	color: silver;
 	transition: font-size 0.1s ease-out, background-color 0.2s ease-out;
+
+	img {
+		transition: width 0.1s ease-out, height 0.1s ease-out;
+		width: 70%;
+		height: 70%;
+	}
 }
 
 .toggle-button.on {
-	background-color: whitesmoke;
+	background-color: black;
 	color: black;
 }
 
 .toggle-button:hover {
-	font-size: 1.1em;
+	font-size: 1.2vw;
+	img {
+		width: 90%;
+		height: 90%;
+	}
 }
 
 .toggle-button:active {
-	font-size: 0.9em;
+	font-size: 1vw;
+	img {
+		width: 60%;
+		height: 60%;
+	}
 }
 
-#linear-mode-button {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+.container-for-adaptive {
+	width: 2vw;
+	aspect-ratio: 1/1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 100%;
+	background-color: red;
 }
 
-#curve-mode-button {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+.tool {
+    width: 2vw;
+    height: 2vw;
+    aspect-ratio: 1/1;
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 1vw;
+}
+
+.tool button {
+	border: none;
+    background-color: transparent;
+	border-radius: 10%;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tool button img {
+	transition: width 0.05s ease, height 0.05s;
+    width: 90%;
+    height: 90%;
+}
+
+.tool button img:hover {
+    width: 100%;
+    height: 100%;
+}
+
+.tool button img:active {
+    width: 80%;
+    height: 80%;
 }

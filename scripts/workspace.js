@@ -118,11 +118,13 @@ function addColorItem(color){
 function toggle(state, event){
 	state = state == true ? false : true;
 	if(state){
-		event.currentTarget.style.backgroundColor="whitesmoke"; 
+		event.currentTarget.style.border = "solid 0.2vw whitesmoke"
+		// event.currentTarget.style.backgroundColor="whitesmoke"; 
 		event.currentTarget.style.color="black";
 	}
 	else{
-		event.currentTarget.style.backgroundColor="transparent"; 
+		// event.currentTarget.style.backgroundColor="transparent"; 
+		event.currentTarget.style.border = "none"
 		event.currentTarget.style.color="silver";
 	}
 	return state;
@@ -243,6 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener('load', () => {
+	addColorItem('#ffffff');
+	addColorItem('#000000');
+	
 	linearModeButton.addEventListener('click', (event) => {
 		modeIsLinear = true;
 		modeIsCurve = false;
