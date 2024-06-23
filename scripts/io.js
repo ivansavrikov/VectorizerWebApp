@@ -9,6 +9,8 @@ import {
 	downloadSvgButton,
 	detailLevelSlider,
 	loadAnimation,
+	modeIsCurve,
+	modeIsLinear,
 } from "../scripts/workspace.js"
 
 import { drawImage } from "./drawning.js";
@@ -17,11 +19,12 @@ import { calcStartScale, transfromReset } from "./zooming-panning.js";
 
 import { paletteReload } from "../scripts/workspace.js";
 
-export async function traceOnServer(file, jsonColors, detailing) {
+export async function traceOnServer(file, jsonColors, detailing, mode) {
 	const formData = new FormData();
 	formData.append("file", file, "image.png");
 	formData.append("colors", jsonColors)
 	formData.append("detailing", detailing);
+	formData.append("mode", mode)
 
 	try {
 		const response = await fetch("http://127.0.0.1:8000/tracer/", {
@@ -83,6 +86,10 @@ vectorizeButton.addEventListener("click", () => {
 		let colors = Object.keys(colorsForTracing);
 		let jsonColors = JSON.stringify(colors);
 
+		let mode = 1;
+		if(modeIsLinear){mode=1}
+		if(modeIsCurve){mode=2}
+
 		if(colors.length <= 1){
 			alert("Палитра должна содержать мимимум 2 разных цвета, используйте pick или add");
 			return;
@@ -91,7 +98,7 @@ vectorizeButton.addEventListener("click", () => {
 		svgContainer.innerHTML = "";
 		loadAnimation.style.display = 'block';
 
-		traceOnServer(blob, jsonColors, detailing)
+		traceOnServer(blob, jsonColors, detailing, mode)
 		.then((svgData) => {
 			// vectorViewer.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 			svgContainer.innerHTML = svgData;

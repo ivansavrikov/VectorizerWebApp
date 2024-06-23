@@ -1,10 +1,11 @@
-import {scale, calcStartScale} from "../scripts/zooming-panning.js";
-// import { calcStartScale } from "./editor.js";
+import {calcStartScale} from "../scripts/zooming-panning.js";
 import { drawImage } from "./drawning.js";
 import { transform } from "../scripts/zooming-panning.js";
 
 export const uploadBitmapButton = document.getElementById("upload-bitmap-button");
 export const vectorizeButton = document.getElementById("vectorize-button");
+export const linearModeButton = document.getElementById("linear-mode-button");
+export const curveModeButton = document.getElementById("curve-mode-button");
 export const downloadSvgButton = document.getElementById("download-svg-button");
 export const brushToolButton = document.getElementById("brush-tool-button");
 export const brushColorPicker = document.getElementById("brush-color-picker");
@@ -22,19 +23,19 @@ export const vectorContainer = document.getElementById("vector-container");
 export const palettePickerToolCursor = document.getElementById("pallete-picker-tool-cursor");
 export const brushSizeCursor = document.getElementById("brush-size-cursor");
 export const loadAnimation = document.getElementById("load");
-export const rotateToolButton = document.getElementById("rotate-tool-button");
+export const removerTool = document.getElementById("delete-shape-tool-button");
 export const cropToolButton = document.getElementById("crop-tool-button");
 export const cropCursor = document.getElementById("crop-cursor");
-// export const el = document.getElementById("");
 const putToCenterButton = document.getElementById("put-to-center-button");
-
+export let ctx = canvas.getContext('2d', { willReadFrequently: true });
 export let colorsForTracing = {};
-
 export let drawingIsActive = false;
 export let palettePickerIsActive = false;
 export let isRotateToolActive = false;
 export let cropToolIsActive = false;
-export let ctx = canvas.getContext('2d', { willReadFrequently: true });
+export let removerToolIsActive = false;
+export let modeIsLinear = false;
+export let modeIsCurve = false;
 
 export function paletteReload(){
 	paletteScroll.innerHTML = '';
@@ -85,6 +86,7 @@ function componentToHex(c) {
 	const hex = c.toString(16);
 	return hex.length == 1 ? '0' + hex : hex;
 }
+
 function rgbToHex(r, g, b) {
 	return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
@@ -126,6 +128,15 @@ function toggle(state, event){
 	return state;
 }
 
+function toggleUI(event){
+	const toggleButtons = document.querySelectorAll('.toggle-button');
+	toggleButtons.forEach(button => {
+		button.classList.remove('on');
+	});
+
+	event.currentTarget.classList.add('on');
+}
+
 function changeCursorVisibility(cursor, isActive){
 	if(isActive){
 		canvas.style.cursor = 'none';
@@ -135,6 +146,18 @@ function changeCursorVisibility(cursor, isActive){
 		cursor.classList.remove("active");
 		canvas.style.cursor = "inherit";
 	}
+}
+
+function addPathsListener(){
+	const paths = svgContainer.querySelectorAll('path');
+	paths.forEach(path => {
+		path.addEventListener('click', () => {
+			if(removerToolIsActive){
+				path.remove();
+				sessionStorage.setItem('svg', svgContainer.innerHTML)
+			}
+		});
+	});
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -204,9 +227,34 @@ document.addEventListener("DOMContentLoaded", () => {
 		cropCursor.style.left = rect.left + window.scrollX + rect.width / 2 + "px";
 		cropCursor.style.top = rect.top + window.scrollY + rect.height / 2 + "px";
 	});
+
+	removerTool.addEventListener('click', (event) => {
+		removerToolIsActive = toggle(removerToolIsActive, event);
+		const paths = svgContainer.querySelectorAll('path');
+		paths.forEach(path => {
+			if (removerToolIsActive) {
+				path.classList.add('hover-enabled');
+				addPathsListener();
+			} else {
+				path.classList.remove('hover-enabled');
+			}
+		});
+	});
 });
 
 window.addEventListener('load', () => {
+	linearModeButton.addEventListener('click', (event) => {
+		modeIsLinear = true;
+		modeIsCurve = false;
+		toggleUI(event);
+	})
+	curveModeButton.addEventListener('click', (event) => {
+		modeIsCurve = true;
+		modeIsLinear = false;
+		toggleUI(event);
+	})
+
+	curveModeButton.click();
 
 	window.addEventListener('paste', (event) => {
         const items = event.clipboardData.items;

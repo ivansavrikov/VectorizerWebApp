@@ -35,12 +35,16 @@
 				<label id="upload-bitmap-button" for="bitmap-input" class="square-element rect-button">open
 					<input type="file" id="bitmap-input" accept="image/*"/>
 				</label>
-				<button id="vectorize-button" class="square-element rect-button">trace</button>
 				<div size="detail-level-slider-container" class="slider-with-title">
 					<span class="slider-title">detail</span>
 					<input id="detail-level-slider" type="range" min="-10" max="-1" value="-2"/>
 					<span class="span-value" id="detail-level-slider-value"></span>
 				</div>
+				<div class="square-element" style="width: 10vw" style="background-color: blue;">
+					<button id="linear-mode-button" class="toggle-button">linear</button>
+					<button id="curve-mode-button" class="toggle-button">curve</button>
+				</div>
+				<button id="vectorize-button" class="square-element rect-button">trace</button>
 				<button id="download-svg-button" class="square-element rect-button">save</button>
 			</div>
 
@@ -63,6 +67,7 @@
 				<!-- <button id="rotate-tool-button" class="square-element rect-button">rotate</button> -->
 				<button id="crop-tool-button" class="square-element rect-button">select</button>
 				<button id="put-to-center-button" class="square-element rect-button">center</button>
+				<button id="delete-shape-tool-button" class="square-element rect-button">remover</button>
 			</div>
 
 			<div id="palette-row" class="row">

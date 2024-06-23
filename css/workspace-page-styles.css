@@ -425,3 +425,52 @@ svg {
 		height: 10vh;
 	}
 }
+
+path.hover-enabled:hover {
+	fill: red;
+	stroke: red;
+}
+
+path {
+	transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.toggle-button {
+	border: none;
+	outline: none;
+	border-radius: 6vw;
+	font-family: "MontserratRegular";
+	line-height: 1.5vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 6vw;
+	height: 1.5vw;
+	font-size: 1em;
+	background-color: black;
+	color: silver;
+	transition: font-size 0.1s ease-out, background-color 0.2s ease-out;
+}
+
+.toggle-button.on {
+	background-color: whitesmoke;
+	color: black;
+}
+
+.toggle-button:hover {
+	font-size: 1.1em;
+}
+
+.toggle-button:active {
+	font-size: 0.9em;
+}
+
+#linear-mode-button {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#curve-mode-button {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
