@@ -107,9 +107,6 @@ function stopDrag(event){
 	event.currentTarget.style.cursor = 'pointer';
 }
 
-// textarea.value = sessionStorage.getItem("svg");
-// imageSvg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(sessionStorage.getItem("svg"));
-
 textarea.addEventListener('keydown', function(e) {
 	if (e.key === 'Tab') {
 		e.preventDefault();

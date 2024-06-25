@@ -119,11 +119,9 @@ function toggle(state, event){
 	state = state == true ? false : true;
 	if(state){
 		event.currentTarget.style.border = "solid 0.2vw whitesmoke"
-		// event.currentTarget.style.backgroundColor="whitesmoke"; 
 		event.currentTarget.style.color="black";
 	}
 	else{
-		// event.currentTarget.style.backgroundColor="transparent"; 
 		event.currentTarget.style.border = "none"
 		event.currentTarget.style.color="silver";
 	}
@@ -156,7 +154,6 @@ function addPathsListener(){
 		path.addEventListener('click', () => {
 			if(removerToolIsActive){
 				path.remove();
-				sessionStorage.setItem('svg', svgContainer.innerHTML)
 			}
 		});
 	});
@@ -196,7 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		if(palettePickerIsActive){
 			const position = getPixelPosition(event);
 			const imageData = ctx.getImageData(position.x, position.y, 1, 1).data;
-			// const a = imageData[3] / 255;
 			let hex = rgbToHex(imageData[0], imageData[1], imageData[2]);
 			paletteColorPicker.value = hex;
 			previewColorLabel.style.backgroundColor = previewColorPicker.value;
@@ -239,8 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
 				addPathsListener();
 			} else {
 				path.classList.remove('hover-enabled');
+				addPathsListener();
 			}
 		});
+		sessionStorage.setItem('svg', svgContainer.innerHTML);
 	});
 });
 
@@ -302,4 +300,10 @@ window.addEventListener('load', () => {
 	putToCenterButton.addEventListener('click', () => {
 		calcStartScale(bitmapContainer, canvas);
 	});
+});
+
+window.addEventListener('beforeunload', (event) => {
+    if(removerToolIsActive){
+		removerTool.click();
+	}
 });

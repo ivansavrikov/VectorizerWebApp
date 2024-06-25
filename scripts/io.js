@@ -36,6 +36,7 @@ export async function traceOnServer(file, jsonColors, detailing, mode) {
 		return svgData;
 	} catch (error) {
 		console.error("Ошибка при отправке изображения:", error);
+		alert(`Извините ваше изображение слишком большое, попробуйте выделить главное`);
 	}
 }
 
@@ -100,12 +101,13 @@ vectorizeButton.addEventListener("click", () => {
 
 		traceOnServer(blob, jsonColors, detailing, mode)
 		.then((svgData) => {
-			// vectorViewer.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
 			svgContainer.innerHTML = svgData;
 			loadAnimation.style.display = 'none';
 		})
 		.catch((error) => {
 			console.error("Ошибка при получении SVG:", error);
+			loadAnimation.style.display = 'none';
+			alert("Палитра должна содержать мимимум 2 разных цвета, используйте pick или add");
 		});;
 	});
 });
@@ -115,8 +117,6 @@ vectorizeButton.addEventListener("click", () => {
 downloadSvgButton.addEventListener("click", () => saveSVG());
 function saveSVG(file) {
   const link = document.createElement("a");
-//   const svg = vectorViewer.src;
-//   const svgContent = svgContainer.innerHTML;
   let svgContent = sessionStorage.getItem("svg");
   const blob = new Blob([svgContent], { type: 'image/svg+xml' });
   link.href = URL.createObjectURL(blob);

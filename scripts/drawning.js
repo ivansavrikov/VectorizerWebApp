@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (drawingIsActive) {
             const pixelPosition = getPixelPosition(event);
             const imageData = ctx.createImageData(brushSizeSlider.value, brushSizeSlider.value);
-            // imageData.data.set(selectedColor);
 			fillImageData(imageData, selectedColor)
 
 			pixelPosition.x = pixelPosition.x - brushSizeSlider.value/2 + 1;
