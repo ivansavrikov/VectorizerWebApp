@@ -27,7 +27,7 @@ export async function traceOnServer(file, jsonColors, detailing, mode) {
 	formData.append("mode", mode)
 
 	try {
-		const response = await fetch("http://127.0.0.1:8000/tracer/", {
+		const response = await fetch("http://90.189.215.163:80/tracer/", {
 			method: "POST",
 			body: formData,
 		});
